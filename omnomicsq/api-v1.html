@@ -5,7 +5,7 @@
 <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 1.5.3">
-<title>OmnomicsQ API V1</title>
+<title>OmnomicsQ API</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | http://asciidoctor.org */
@@ -419,7 +419,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="book toc2 toc-left">
 <div id="header">
-<h1>OmnomicsQ API V1</h1>
+<h1>OmnomicsQ API</h1>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
@@ -444,30 +444,41 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <h2 id="_introduction">Introduction</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>This API provides access to the sample quality data in JSON format.</p>
+<p>This API provides access to your NGS quality data stored in the
+<a href="https://euformatics.com/oq/"><strong>omnomicsQ</strong></a>
+quality control system for NGS sequencing data.</p>
 </div>
 <div class="paragraph">
-<p>Currently the API is available for testing at
-<code><a href="https://om.euformatics.com/api/v1" class="bare">https://om.euformatics.com/api/v1</a></code>, using HTTP Basic authentication, with the
-same username and password that are used to log into omnomicsQ.</p>
+<p>The API is available for testing at
+<code>https://om.euformatics.com/api/v1</code>.</p>
 </div>
-<div class="admonitionblock warning">
+<div class="paragraph">
+<p>Currently the service is in beta testing. Details may still change
+before the public launch.</p>
+</div>
+<div class="paragraph">
+<p>The API uses HTTP Basic authentication.
+For testing, you can use the same username and password that you use for the
+<a href="https://om.euformatics.com/apex/f?p=Q"><strong>omnomicsQ</strong> web application</a>.
+For real usage,
+please <a href="mailto:support@euformatics.com">contact Euformatics</a> for an API key.</p>
+</div>
+<div class="paragraph">
+<p>All operations produce responses in JSON format.</p>
+</div>
+<div class="admonitionblock note">
 <table>
 <tr>
 <td class="icon">
-<div class="title">Warning</div>
+<div class="title">Note</div>
 </td>
 <td class="content">
-Currently the service is in beta testing. Note that it is possible
-that details will still change before the public launch.
+Please note that the example responses below have been edited for brevity,
+and are not actually complete/realistic responses that you would get from
+the actual API.
 </td>
 </tr>
 </table>
-</div>
-<div class="paragraph">
-<p>Please note that the example responses have been truncated for brevity.
-The example responses presented on this page do not represent realistic
-or complete data.</p>
 </div>
 </div>
 </div>
@@ -524,6 +535,42 @@ or complete data.</p>
         "categ" : {
           "id" : 2,
           "name" : "Whole Exome"
+        }
+      }
+    },
+    "sample_type" : {
+      "id" : 1,
+      "name" : "Fresh"
+    },
+    "organism" : "Unknown",
+    "tissue" : "Unknown",
+    "trashed" : false
+  }, {
+    "id" : 431,
+    "sample_key" : "test2",
+    "run_date" : "2014-09-25T11:13:54+0000",
+    "created" : "2014-09-25T11:13:54+0000",
+    "updated" : "2016-10-17T11:12:39+0000",
+    "organization_id" : 1,
+    "device" : {
+      "id" : 261,
+      "name" : "My Genome Analyzer II",
+      "platform" : {
+        "id" : 8,
+        "seq_model" : "Genome Analyzer II",
+        "manufacturer" : "Illumina"
+      }
+    },
+    "sop" : {
+      "id" : 6421,
+      "name" : "Default",
+      "kit" : {
+        "id" : 775,
+        "name" : "HaloPlexHS Noonan Syndrome",
+        "manufacturer" : "Agilent",
+        "categ" : {
+          "id" : 3,
+          "name" : "Targeted"
         }
       }
     },
@@ -1493,7 +1540,7 @@ or complete data.</p>
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2017-06-29 11:08:59 UTC
+Last updated 2017-07-05 14:53:13 EEST
 </div>
 </div>
 </body>
