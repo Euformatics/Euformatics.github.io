@@ -694,7 +694,8 @@ the actual API.
       "read_depth_avg" : 26.8,
       "quality_avg" : 29.1,
       "breadth_of_coverage" : 60.3,
-      "description" : "ENSE00002705870"
+      "description" : "ENSE00002705870",
+      "target_type" : "t"
     } ]
   }
 }</code></pre>
@@ -926,6 +927,11 @@ the actual API.
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.items[].description</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Name of contig/amplicon (from BED file)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.items[].target_type</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type of contig/amplicon ("c" = clinical, "t" = technical</p></td>
 </tr>
 </tbody>
 </table>
@@ -1546,7 +1552,7 @@ the actual API.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-11-27 08:29:40 UTC
+Last updated 2018-12-05 13:37:55 UTC
 </div>
 </div>
 </body>
