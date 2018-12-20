@@ -499,7 +499,7 @@ the actual API.
 <h4 id="_listing_samples_curl_request">Curl request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://om.euformatics.com/api/v1/samples/' -i -u 'user:password' \
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://q.omnomics.com/api/v1/samples/' -i -u 'user:password' \
     -H 'Accept: application/json'</code></pre>
 </div>
 </div>
@@ -623,7 +623,7 @@ the actual API.
 <h4 id="_getting_sample_qc_metrics_curl_request">Curl request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://om.euformatics.com/api/v1/samples/test' -i -u 'user:password' \
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://q.omnomics.com/api/v1/samples/test' -i -u 'user:password' \
     -H 'Accept: application/json'</code></pre>
 </div>
 </div>
@@ -659,7 +659,8 @@ the actual API.
         "id" : 2,
         "name" : "Whole Exome"
       }
-    }
+    },
+    "base_qual_thresh" : 13
   },
   "sample_type" : {
     "id" : 1,
@@ -687,6 +688,9 @@ the actual API.
   },
   "amplicon_qc_metrics" : {
     "amp_dropout_thresh" : 15,
+    "detection_limit" : 15,
+    "cli_amp_dropout_thresh" : null,
+    "cli_detection_limit" : null,
     "items" : [ {
       "chr" : "17",
       "start_pos" : 29682823,
@@ -695,7 +699,9 @@ the actual API.
       "quality_avg" : 29.1,
       "breadth_of_coverage" : 60.3,
       "description" : "ENSE00002705870",
-      "target_type" : "t"
+      "target_type" : "t",
+      "complete_dropout" : false,
+      "partially_covered" : false
     } ]
   }
 }</code></pre>
@@ -804,6 +810,11 @@ the actual API.
 <td class="tableblock halign-left valign-top"><p class="tableblock">Category of the kit</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sop.base_qual_thresh</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Minimum Phred score for counting read depth</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sample_type.id</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Type of the sample (identifier)</p></td>
@@ -886,7 +897,22 @@ the actual API.
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.amp_dropout_thresh</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Threshold for amplicon average quality</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Average read depth threshold for dropout, technical target</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.detection_limit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Single base read depth threshold for gap, technical target</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.cli_amp_dropout_thresh</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Average read depth threshold for dropout, clinical target</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.cli_detection_limit</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Single base read depth threshold for gap, clinical target</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.items[]</code></p></td>
@@ -931,7 +957,17 @@ the actual API.
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.items[].target_type</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Type of contig/amplicon ("c" = clinical, "t" = technical</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Type of contig/amplicon ("c" = clinical, "t" = technical)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.items[].complete_dropout</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether contig/amplicon is has average read depth less than threshold</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.items[].partially_covered</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Whether contig/amplicon less than full coverage at required quality level</p></td>
 </tr>
 </tbody>
 </table>
@@ -951,7 +987,7 @@ the actual API.
 <h4 id="_listing_illumina_runs_curl_request">Curl request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://om.euformatics.com/api/v1/illumina-runs/' -i -u 'user:password' \
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://q.omnomics.com/api/v1/illumina-runs/' -i -u 'user:password' \
     -H 'Accept: application/json'</code></pre>
 </div>
 </div>
@@ -1037,7 +1073,7 @@ the actual API.
 <h4 id="_getting_illumina_run_metrics_curl_request">Curl request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://om.euformatics.com/api/v1/illumina-runs/160226_M02784_0100_000000000-AKRG3' -i -u 'user:password' \
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://q.omnomics.com/api/v1/illumina-runs/160226_M02784_0100_000000000-AKRG3' -i -u 'user:password' \
     -H 'Accept: application/json'</code></pre>
 </div>
 </div>
@@ -1370,7 +1406,7 @@ the actual API.
 <h4 id="_listing_qc_metrics_curl_request">Curl request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://om.euformatics.com/api/v1/qc-metrics/' -i -u 'user:password' \
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://q.omnomics.com/api/v1/qc-metrics/' -i -u 'user:password' \
     -H 'Accept: application/json'</code></pre>
 </div>
 </div>
@@ -1454,7 +1490,7 @@ the actual API.
 <h4 id="_listing_sample_metadata_attributes_curl_request">Curl request</h4>
 <div class="listingblock">
 <div class="content">
-<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://om.euformatics.com/api/v1/sample-meta/' -i -u 'user:password' \
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://q.omnomics.com/api/v1/sample-meta/' -i -u 'user:password' \
     -H 'Accept: application/json'</code></pre>
 </div>
 </div>
@@ -1552,7 +1588,7 @@ the actual API.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-12-05 13:37:55 UTC
+Last updated 2018-12-18 12:27:06 UTC
 </div>
 </div>
 </body>
