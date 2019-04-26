@@ -428,6 +428,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <ul class="sectlevel2">
 <li><a href="#_listing_samples">Listing samples</a></li>
 <li><a href="#_getting_sample_qc_metrics">Getting sample QC metrics</a></li>
+<li><a href="#_listing_genes_not_covered">Listing genes not covered</a></li>
 <li><a href="#_listing_illumina_runs">Listing Illumina runs</a></li>
 <li><a href="#_getting_illumina_run_metrics">Getting Illumina run metrics</a></li>
 <li><a href="#_listing_qc_metrics">Listing QC metrics</a></li>
@@ -971,6 +972,40 @@ the actual API.
 </tr>
 </tbody>
 </table>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_listing_genes_not_covered">Listing genes not covered</h3>
+<div class="literalblock">
+<div class="content">
+<pre>GET api/v1/samples/{key}/genes-not-covered</pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Returns an alphabetically ordered list of names of genes not covered.
+The "gene" is the start of the description string from the BED file, up to a dot &#8216;.&#8217; or, if the description does not contain a dot, the whole description.</p>
+</div>
+<div class="sect3">
+<h4 id="_listing_genes_not_covered_curl_request">Curl request</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-bash" data-lang="bash">$ curl 'https://q.omnomics.com/api/v1/samples/gap-api-testing-sample-1/genes-not-covered' -i -u 'user:password' \
+    -H 'Accept: application/json'</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_listing_genes_not_covered_response_body">Response body</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code>{
+  "items" : [ "IDH2", "KIT", "NRAS" ]
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="paragraph">
+<p>Considers all clinical targets that have either an average read depth below the set threshold, or a breadth of coverage less than 100.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1588,7 +1623,7 @@ the actual API.
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2018-12-18 12:27:06 UTC
+Last updated 2019-04-03 08:47:14 UTC
 </div>
 </div>
 </body>
