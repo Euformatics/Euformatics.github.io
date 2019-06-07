@@ -689,14 +689,20 @@ the actual API.
   },
   "amplicon_qc_metrics" : {
     "amp_dropout_thresh" : 15,
-    "detection_limit" : 15,
+    "amp_dropout_thresh_strand" : 5,
+    "detection_limit" : 10,
+    "detection_limit_strand" : 4,
     "cli_amp_dropout_thresh" : null,
+    "cli_amp_dropout_thresh_strand" : null,
     "cli_detection_limit" : null,
+    "cli_detection_limit_strand" : null,
     "items" : [ {
       "chr" : "17",
       "start_pos" : 29682823,
       "end_pos" : 29688620,
       "read_depth_avg" : 26.8,
+      "read_depth_fwd_avg" : 11.5,
+      "read_depth_rev_avg" : 15.3,
       "quality_avg" : 29.1,
       "breadth_of_coverage" : 60.3,
       "description" : "ENSE00002705870",
@@ -901,9 +907,19 @@ the actual API.
 <td class="tableblock halign-left valign-top"><p class="tableblock">Average read depth threshold for dropout, technical target</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.amp_dropout_thresh_strand</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Average single-strand read depth threshold for dropout, technical target</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.detection_limit</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Single base read depth threshold for gap, technical target</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.detection_limit_strand</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Single base read depth threshold for gap, single strand, technical target</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.cli_amp_dropout_thresh</code></p></td>
@@ -911,9 +927,19 @@ the actual API.
 <td class="tableblock halign-left valign-top"><p class="tableblock">Average read depth threshold for dropout, clinical target</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.cli_amp_dropout_thresh_strand</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Average single-strand read depth threshold for dropout, clinical target</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.cli_detection_limit</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Single base read depth threshold for gap, clinical target</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.cli_detection_limit_strand</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Null</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Single base read depth threshold for gap, single strand, clinical target</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>amplicon_qc_metrics.items[]</code></p></td>
@@ -1623,7 +1649,7 @@ The "gene" is the start of the description string from the BED file, up to a dot
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-04-03 08:47:14 UTC
+Last updated 2019-05-20 11:18:57 UTC
 </div>
 </div>
 </body>
