@@ -8,8 +8,6 @@
 # sequencing run (the directory is expected to contain files named `RunInfo.xml`
 # and `SampleSheet.csv` among others)
 
-set -x
-
 ### -- BEGIN SETTINGS --- ###
 # Customize your settings here.
 
