@@ -2,9 +2,9 @@
 #
 # Example of how to script the omnomicsQ command line client.
 #
-# Usage: ./qc_all.sh /path/to/run/directory
+# Usage: ./oq_all.sh /path/to/run/directory
 #
-# The run directory should be a direcoriy containing the data from an Illumina
+# The run directory should be a directory containing the data from an Illumina
 # sequencing run (the directory is expected to contain files named `RunInfo.xml`
 # and `SampleSheet.csv` among others)
 
