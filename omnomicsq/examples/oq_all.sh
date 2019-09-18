@@ -42,7 +42,7 @@ do
     sample_key="${sample_id}_S1"
     files="${run_dir}/Data/Intensities/BaseCalls/${sample_key}*.fastq.gz"
     echo "Raw QC: ${sample_key}: ${files}"
-    ${client_dir}/omnomicsq_cli raw --device="${device}" --sop="${sop}" --sample "${sample_key}" ${files}
+    ${client_dir}/omnomicsq_cli raw --device="${device}" --sop="${sop}" --sample="${sample_key}" ${files}
 done
 
 # 2.2. Aligned QC metrics from BAM files
@@ -53,7 +53,7 @@ do
     sample_key="${sample_id}_S1"
     file="${run_dir}/Data/Intensities/BaseCalls/Alignments/${sample_key}.bam"
     echo "Aligned QC: ${sample_key}: ${file}"
-    ${client_dir}/omnomicsq_cli aligned --device="${device}" --sop="${sop}" --bed "${bed}" --sample "${sample_key}" ${file}
+    ${client_dir}/omnomicsq_cli aligned --device="${device}" --sop="${sop}" --bed="${bed}" --sample="${sample_key}" ${file}
 done
 
 # 2.3. Variant call QC metrics from VCF files
@@ -64,5 +64,5 @@ do
     sample_key="${sample_id}_S1"
     file="${run_dir}/Data/Intensities/BaseCalls/Alignments/Variants/${sample_key}.vcf"
     echo "VCF QC: ${sample_key}: ${file}"
-    ${client_dir}/omnomicsq_cli vcf --device="${device}" --sop="${sop}" --sample "${sample_key}" ${file}
+    ${client_dir}/omnomicsq_cli vcf --device="${device}" --sop="${sop}" --sample="${sample_key}" ${file}
 done
