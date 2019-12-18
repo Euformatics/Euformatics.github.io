@@ -41,7 +41,7 @@ sed -n '/^\[Data\]/,$p' "$run_dir/SampleSheet.csv" | tail -n +3 |
 while IFS=',' read -r sample_id rest
 do
     sample_key="${sample_id}_S1"
-    files="${run_dir}/Data/Intensities/BaseCalls/${sample_key}*.fastq.gz"
+    files="${run_dir}/Data/Intensities/BaseCalls/${sample_key}"*".fastq.gz"
     echo "Raw QC: ${sample_key}: ${files}"
     ${client_dir}/omnomicsq_cli raw --batch --device="${device}" --sop="${sop}" --sample="${sample_key}" ${files}
 done
