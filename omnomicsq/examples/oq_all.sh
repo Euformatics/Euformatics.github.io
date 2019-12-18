@@ -24,6 +24,18 @@ sop=6
 # bed: Set this to point to your BED file
 bed="/path/to/your/bed/file"
 
+# organism
+organism="Homo sapiens"
+
+# tissue: Set this to the tissue or DNA source
+tissue="Blood"
+
+# sampletype: 1: Fresh, 2: Frozen, 3: FFPE, 4: Substandard quality, 5:Fragmented, 6: Cell free multiplex
+sampletype=1
+
+# Other command line options, e.g. metadata attributes such as DNA Amount (ng) or your Pipeline version
+opts="--meta=dna_amount:20 --meta=pipeline_ver:1.0"
+
 ### --- END SETTINGS --- ###
 
 run_dir="$1"
@@ -43,7 +55,7 @@ do
     sample_key="${sample_id}_S1"
     files="${run_dir}/Data/Intensities/BaseCalls/${sample_key}"*".fastq.gz"
     echo "Raw QC: ${sample_key}: ${files}"
-    ${client_dir}/omnomicsq_cli raw --batch --device="${device}" --sop="${sop}" --sample="${sample_key}" ${files}
+    ${client_dir}/omnomicsq_cli raw --batch --device="${device}" --sop="${sop}" --sample="${sample_key}" --organism="${organism}" --tissue="${tissue}" --sampletype="${sampletype}" ${opts} ${files}
 done
 
 # 2.2. Aligned QC metrics from BAM files
@@ -54,7 +66,7 @@ do
     sample_key="${sample_id}_S1"
     file="${run_dir}/Data/Intensities/BaseCalls/Alignments/${sample_key}.bam"
     echo "Aligned QC: ${sample_key}: ${file}"
-    ${client_dir}/omnomicsq_cli aligned --batch --device="${device}" --sop="${sop}" --bed="${bed}" --sample="${sample_key}" ${file}
+    ${client_dir}/omnomicsq_cli aligned --batch --device="${device}" --sop="${sop}" --bed="${bed}" --sample="${sample_key}" --organism="${organism}" --tissue="${tissue}" --sampletype="${sampletype}" ${opts} ${file}
 done
 
 # 2.3. Variant call QC metrics from VCF files
@@ -65,5 +77,5 @@ do
     sample_key="${sample_id}_S1"
     file="${run_dir}/Data/Intensities/BaseCalls/Alignments/Variants/${sample_key}.vcf"
     echo "VCF QC: ${sample_key}: ${file}"
-    ${client_dir}/omnomicsq_cli vcf --batch --device="${device}" --sop="${sop}" --sample="${sample_key}" ${file}
+    ${client_dir}/omnomicsq_cli vcf --batch --device="${device}" --sop="${sop}" --sample="${sample_key}" --organism="${organism}" --tissue="${tissue}" --sampletype="${sampletype}" ${opts} ${file}
 done
