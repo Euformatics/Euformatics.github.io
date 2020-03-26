@@ -1,0 +1,124 @@
+<h1 id="omnomicsq-command-line-application-quick-start-guide">OmnomicsQ command line application Quick Start Guide</h1>
+<p>This file contains instructions for getting started with command line application for OmnomicsQ.</p>
+<p>The command line application is a Linux tool which calculates QC metrics from various types of files (fastq, BAM, VCF etc.) locally and submits the QC metrics to the OmnomicsQ web application. It is intended to be integrated as a part of an analysis pipeline to automate calculation and submission of QC data.</p>
+<h2 id="downloading-the-omnomicsq-command-line-application">Downloading the OmnomicsQ command line application</h2>
+<p>The OmnomicsQ command line application is available for download from the same page as the desktop application.</p>
+<ol style="list-style-type: decimal">
+<li><p>Log in to OmnomicsQ web application with your username and password at https://q.omnomics.com/ords/f?p=Q</p></li>
+<li><p>Click <strong>Laboratory</strong> to go to your laboratory's home page and click <strong>Downloads</strong> to get to the downloads page.</p></li>
+<li><p>Download the command line application for Linux (64-bit). It is distributed as a zip archive, and it should work with any Linux distribution with glibc 2.11 or newer (which should be most of distributions).</p></li>
+<li><p>Unzip the zip archive to a directory of your choosing (note that the archive does not contain a subdirectory itself). The main command line executable is named <code>omomicsq_cli</code>. You can either choose to include this directory in your <code>PATH</code> environment variable, or always use the full pathname of the executable when running it.</p></li>
+</ol>
+<p>(The download and installation process is similar for the desktop application. The desktop application is named <code>omnomicsq</code>, or <code>omnomicsq.exe</code> on Windows.)</p>
+<h2 id="configuring-the-command-line-application">Configuring the command line application</h2>
+<p>There is a settings file called <code>oq_ini.txt</code> in in the same directory as the main executable. Edit it to contain your username and password. Uncomment the following lines and substitute your username and password (same username and password that you used to log in to the web application, above).</p>
+<pre><code>org=USERNAME
+license=PASSWORD</code></pre>
+<p>Alternatively, you can set the environment variables <code>oq_org</code> and <code>oq_license</code>.</p>
+<h2 id="configuring-a-proxy">Configuring a proxy</h2>
+<p>The command line application uses the proxy from the <code>https_proxy</code> environment variable if it is set. If the proxy requires authentication you can include the HTTP Basic credentials in the proxy URL using the syntax <code>http://proxyuser:proxypass@proxy.example.com:8899</code>.</p>
+<p>Alternatively, you can configure the proxy in the <code>oq_ini.txt</code> file, in which case the environment variables are not used.</p>
+<pre><code>[Proxy]
+url=http://proxy.example.com:8899
+# if the proxy requires username and password you can set them here too
+#username=proxyuser
+#password=proxypass</code></pre>
+<h2 id="testing-the-command-line-application">Testing the command line application</h2>
+<p>Once you have set up the username and password in the configuration file, you can test that the command line application works by listing all your sequencer devices that you have set up with the <code>list_devices</code> sub-command:</p>
+<pre><code>omnomicsq_cli list_devices</code></pre>
+<p>And you can list all of your SOPs with the <code>list_sops</code> sub-command:</p>
+<pre><code>omnomicsq_cli list_sops</code></pre>
+<p>If these commands output the list of your devices and SOPs, then the application is correctly installed and able to contact the server.</p>
+<p>More devices and SOPs can be set up in the web application. In order to start using the command line application, you should have at least one device and one SOP set up.</p>
+<p>You can run <code>omnomicsq_cli --help</code> to get usage help about available subcommands and command line options.</p>
+<h2 id="example-extracting-raw-quality-metrics-from-a-fastq-files">Example: Extracting raw quality metrics from a fastq files</h2>
+<p>You can extract the raw QC metrics from a set of fastq files and send them to the server with the raw subcommand like the following:</p>
+<pre><code>omnomicsq_cli raw --device=1 --sop=23 --sample=SAMPLEKEY FILE1.fastq.gz FILE2.fastq.gz ...</code></pre>
+<p>Where the command line parameters are as follows:</p>
+<ul>
+<li>the <code>--device</code> option specifies the id (or, alternatively, name) of the sequencer device used (one listed by the <code>list_devices</code> subcommand)</li>
+<li>the <code>--sop</code> option specifies the id of the SOP to used (one listed by the <code>list_sops</code> subcommand)</li>
+<li>the <code>--sample</code> option specifies the sample key, unique within your organization and chosen by you, for this sample in question (this is used to tie the various QC metrics calculated from different files together).</li>
+<li>the list of fastq files to process, these may be either uncompressed or compressed by gzip</li>
+</ul>
+<p>(It is possible to specify the device by its name rather than its numeric id. Using numeric ids may be more robust, because then the command will continue to work unchanged even if the device is later renamed in the Web UI.)</p>
+<p>For performance reasons, the <code>raw</code> subcommand performs sub-sampling by default and only analyzes every fifth read in detail (the total number of bases is extrapolated based on the sub-sample). You can control the sub-sampling fraction with the <code>--sample-rate</code> option, including turning the sub-sampling off by specifying <code>--sample-rate 1.0</code>.</p>
+<p>There is also a separate <code>--untrimmed</code> option for specifying that the untrimmed raw QC metrics should be computed and stored instead of the regular raw QC metrics. This can be useful when you want to record separately the number of reads and bases before any trimming.</p>
+<p>After the command completes, it outputs an URL for the sample in question where the QC metrics can be viewed in the web applicaton.</p>
+<h2 id="example-extracting-alignment-quality-metrics-from-a-bam-file">Example: Extracting alignment quality metrics from a BAM file</h2>
+<p>The <code>aligned</code> subcommand is used to process a BAM file to extract the alignment QC metrics.</p>
+<pre><code>omnomicsq_cli aligned --device=1 --sop=23 --bed=TARGET.bed --sample=SAMPLEKEY FILE.bam</code></pre>
+<p>Where the <code>--sop</code>, <code>--device</code>, <code>--sample</code> and other metadata options are as described above for the <code>raw</code> subcommand.</p>
+<ul>
+<li>the <code>--bed</code> command line option specifies the target regions; when this option is specified the coverage analysis is performed based on this target region, and in addition detailed coverage results are calculated for each row in the BED file.</li>
+<li>the filename specifieds the BAM file to be processed</li>
+</ul>
+<p>The BED file specifies the (technical) target for calculating targeted metrics from the BAM file (for example, off target percentage, target coverage at various read depths and so on). Specifying the target with a BED file also allows calculation of quality metrics per feature (i.e. per one line in the BED file) which allows detection of poorly covered features.</p>
+<p>Additionally, if you have a separate bed file describing your clinical target region (usually, a subset of your technical target), you can specify it with the <code>--bed_CLI=CLINICALTARGET.bed</code> option. If this option is specified, then detailed coverage analysis results are also calculated for each row in the clinical target BED file.</p>
+<p>If you do not specify a BED file, but instead specify a SOP which is associated with a well-known commercial kit, the tool will automatically retrieve the correct BED file from the server and use it.</p>
+<h2 id="setting-sample-metadata-fields">Setting sample metadata fields</h2>
+<p>You can use additional switches to specify more optional metadata fields. Documenting the metadata comprehensively will allow tracking the QC metrics by these dimensions.</p>
+<ul>
+<li><code>--sampletype=&lt;NUM&gt;</code> to set the sample type (use subcommand <code>list_sampletypes</code> to see available values). Current list of available values:
+<ul>
+<li>1 - Fresh</li>
+<li>2 - Frozen</li>
+<li>3 - FFPE</li>
+<li>4 - Substandard quality</li>
+<li>5 - Fragmented</li>
+<li>6 - Cell free multiplex</li>
+</ul></li>
+<li><code>--organism=&lt;NAME&gt;</code> to set the organism name (any string, use `list_organisms for existing values)</li>
+<li><code>--tissue=&lt;NAME&gt;</code> to set the tissue (any string, use <code>list_tissues</code> for existing values)</li>
+<li><code>--meta=&lt;FIELD&gt;:&lt;VALUE&gt;</code> to set other metadata values (use <code>list_sample_meta</code> for available metadata fields). The currently supported metadata fields are:
+<ul>
+<li><code>pipeline_ver</code> - Pipeline version</li>
+<li><code>sample_class</code> - Sample class</li>
+<li><code>pool</code>- Sequencing pool</li>
+<li><code>technician</code> - Technician</li>
+<li><code>dna_amount</code> - DNA amount (ng)</li>
+<li><code>lot_1</code> - Lot number of capture/amplification kit</li>
+</ul></li>
+<li><code>--rundate=&lt;YYYY-MM-DD&gt;</code> to set the sample run date (sequencing date)</li>
+</ul>
+<h2 id="example-using-command-line-options-to-set-sample-metadata">Example: Using command line options to set sample metadata</h2>
+<p>Here is a more complete example which demonstrates the use of most command line options:</p>
+<pre><code>omnomicsq_cli aligned --device=1 --sop=23 --sample=test \
+  --sampletype=1 --organism=&quot;Homo sapiens&quot; --tissue=&quot;Blood&quot; \
+  --meta=dna_amount:100 --meta=lot_1:&quot;ABC1234&quot; --meta=technician:&quot;J. Doe&quot; \
+  --bed=example.bed --bed_cli=example2.bed example.bam</code></pre>
+<p>For RNA-seq, you would use the <code>rna</code> subcommand instead of <code>aligned</code>.</p>
+<h2 id="example-extracting-variant-calling-quality-metrics-from-a-vcf-file">Example: Extracting variant calling quality metrics from a VCF file</h2>
+<p>The <code>vcf</code> subcommand is used to process a VCF file to extract the variant calling QC metrics.</p>
+<pre><code>omnomicsq_cli vcf --sop=1 --device=23 --sample=SAMPLEKEY FILE.vcf</code></pre>
+<p>Where the <code>--sop</code>, <code>--device</code> and <code>--sample</code> and other metadata options are as described above for the raw subcommand.</p>
+<ul>
+<li>The filename specifies the VCF file to be processed</li>
+</ul>
+<h2 id="example-extracting-illumina-run-metrics">Example: Extracting illumina run metrics</h2>
+<p>The <code>illumina_run_metrics</code> subcommand is used to extract run metrics from an Illumina run directory. Example:</p>
+<pre><code>omnomicsq_cli illumina_run_metrics --device=456 /SOMEPATH/SOMEFOLDER</code></pre>
+<p>Please note that the sample related metadata and other options are not applicable for run metrics.</p>
+<h2 id="setting-the-run-date">Setting the run date</h2>
+<p>The <code>raw</code>, <code>aligned</code>, <code>rna</code> and <code>vcf</code> subcommands of the command line application accept the <code>--rundate</code> option which can be used to set the run date (sequencing date) of the sample.</p>
+<p>Allowed format is either <code>YYYY-MM-DD</code> or <code>YYYY-MM-DDTHH:MM:SS</code>. Examples:</p>
+<pre><code>--rundate=2017-05-23
+--rundate=2017-05-23T14:50:00</code></pre>
+<p>(For the <code>illumina_run_metrics</code> subcommand the run date is automatically extracted from files in the run folder.)</p>
+<h2 id="storing-values-for-externally-calculated-qc-metrics">Storing values for externally calculated QC metrics</h2>
+<p>The <code>raw</code>, <code>aligned</code> and <code>vcf</code> subcommands also support storing values for other, externally computed metrics.</p>
+<p>You can specify values for external metrics to be stored by adding one or more <code>--ext</code> command line options to your normal command, with the metric name and the value separated by a colon, like this: <code>--ext=CROSS_CONTAMINATION:0.00123</code>.</p>
+<p>The value will be set for the sample, or replaced if there already was a value. You can remove a value by specifying an empty value after the colon, like this: <code>--ext=CROSS_CONTAMINATION:</code>.</p>
+<p>You can get a list of the supported externally-computed metrics by running the command:</p>
+<pre><code>omnomicsq_cli list_ext</code></pre>
+<h3 id="deamination-metric">Deamination metric</h3>
+<p>Torrent Variant Caller can include a meta-information field <code>deamination_metric</code> in the VCF file. The <code>vcf</code> subcommand automatically extracts this as the value for the metric named <code>DEAMINATION_METRIC</code>. Note that the automatically extracted value can overridden from the command line using the <code>--ext</code> command line option.</p>
+<h2 id="streaming-analysis">Streaming analysis</h2>
+<p>For most subcommands, it is possible to specify <code>-</code> (a hyphen) as the file name to indicate that the data should be read from standard input rather than a file. This can be useful for cases where the data you want to analyze is not available as a file on the localhost but you need to retrieve it over the network.</p>
+<p>When analyzing data from a pipe such as the standard input it is recommended to always provide the sample key explicitly using the <code>--sample</code> command line argument.</p>
+<p>Example: Raw (fastq) data analysis for fastq data over a https url:</p>
+<pre><code>curl &#39;https://some.example/path/to/fastq.gz&#39; | ./omnomicsq_cli raw --device=&lt;DEVICE_ID&gt; --sop=&lt;SOP_ID&gt; --sample=&lt;SAMPLE_KEY&gt; -</code></pre>
+<p>Example: Aligned (BAM) data analysis for a BAM file fetched from S3, assuming you have the <code>aws</code> commmand line tool installed and configured:</p>
+<p>aws s3 cp 's3://bucket/prefix/example.bam' - | ./omnomicsq_cli aligned --device=<DEVICE_ID> --sop=<SOP_ID> --bed=<TARGET.BED> --sample=<SAMPLE_KEY> -</p>
+<h2 id="other-uses">Other uses</h2>
+<p>There are additional commands for other usage. Run <code>omnomicsq_cli --help</code> to see more information.</p>
