@@ -598,6 +598,30 @@ the actual API.
 <div class="paragraph">
 <p>Returns the details of a sample and its QC metrics.</p>
 </div>
+<div class="paragraph">
+<p>An optional query parameter <code>amplicon_qc_metrics</code> can be used to control which amplicon-level QC metrics to include in the response.
+The supported values are:</p>
+</div>
+<div class="dlist">
+<dl>
+<dt class="hdlist1"><code>all</code></dt>
+<dd>
+<p>Return data for both technical and clinical target features (default)</p>
+</dd>
+<dt class="hdlist1"><code>t</code></dt>
+<dd>
+<p>Return data for technical target features only</p>
+</dd>
+<dt class="hdlist1"><code>c</code></dt>
+<dd>
+<p>Return data for clinical target features only</p>
+</dd>
+<dt class="hdlist1"><code>none</code></dt>
+<dd>
+<p>Do not return feature-level data at all</p>
+</dd>
+</dl>
+</div>
 <div class="sect3">
 <h4 id="_getting_sample_qc_metrics_path_parameters">Path parameters</h4>
 <table class="tableblock frame-all grid-all spread">
@@ -1649,7 +1673,7 @@ The "gene" is the start of the description string from the BED file, up to a dot
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2019-05-20 11:18:57 UTC
+Last updated 2020-04-08 13:24:02 EEST
 </div>
 </div>
 </body>
