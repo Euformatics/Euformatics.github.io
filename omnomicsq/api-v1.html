@@ -564,7 +564,7 @@ the actual API.
     "sop" : {
       "id" : 6421,
       "name" : "Default",
-      "description" : null,
+      "description" : "Default SOP for HaloPlexHS Noonan Syndrome",
       "retired" : false,
       "kit" : {
         "id" : 775,
@@ -677,7 +677,7 @@ The supported values are:</p>
   "sop" : {
     "id" : 1081,
     "name" : "Default",
-    "description" : null,
+    "description" : "Default SOP for SureSelect XTHuman Whole Exome V5",
     "retired" : false,
     "kit" : {
       "id" : 61,
@@ -822,6 +822,16 @@ The supported values are:</p>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sop.name</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Name of the SOP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sop.description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description of the SOP</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>sop.retired</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true if the SOP has been retired, false if it is active</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><code>sop.kit.id</code></p></td>
@@ -1690,7 +1700,21 @@ The "gene" is the start of the description string from the BED file, up to a dot
   "items" : [ {
     "id" : 1081,
     "name" : "Default",
-    "description" : null,
+    "description" : "Default SOP for SureSelect XTHuman Whole Exome V5",
+    "retired" : false,
+    "kit" : {
+      "id" : 61,
+      "name" : "SureSelect XTHuman Whole Exome V5",
+      "manufacturer" : "Agilent",
+      "categ" : {
+        "id" : 2,
+        "name" : "Whole Exome"
+      }
+    }
+  }, {
+    "id" : 1082,
+    "name" : "30X",
+    "description" : "30X SOP for SureSelect XTHuman Whole Exome V5",
     "retired" : false,
     "kit" : {
       "id" : 61,
@@ -1704,7 +1728,7 @@ The "gene" is the start of the description string from the BED file, up to a dot
   }, {
     "id" : 6421,
     "name" : "Default",
-    "description" : null,
+    "description" : "Default SOP for HaloPlexHS Noonan Syndrome",
     "retired" : false,
     "kit" : {
       "id" : 775,
@@ -1722,9 +1746,67 @@ The "gene" is the start of the description string from the BED file, up to a dot
 </div>
 <div class="sect3">
 <h4 id="_listing_sops_response_fields">Response fields</h4>
-<div class="paragraph">
-<p>Snippet response-fields not found for operation::sops</p>
-</div>
+<table class="tableblock frame-all grid-all spread">
+<colgroup>
+<col style="width: 33%;">
+<col style="width: 33%;">
+<col style="width: 33%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>items[].id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SOP id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>items[].name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SOP name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>items[].description</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">SOP description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>items[].retired</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Boolean</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">true if the SOP has been retired, false if it is active</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>items[].kit.id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kit id</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>items[].kit.name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kit name</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>items[].kit.manufacturer</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kit manufacturer</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>items[].kit.categ.id</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>Number</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kit category numerical code</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>items[].kit.categ.name</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Kit category name</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
@@ -1755,7 +1837,7 @@ The "gene" is the start of the description string from the BED file, up to a dot
 </div>
 <div id="footer">
 <div id="footer-text">
-Last updated 2022-03-28 12:10:30 EEST
+Last updated 2022-03-28 15:06:54 EEST
 </div>
 </div>
 </body>
