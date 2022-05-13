@@ -1,0 +1,60 @@
+<h1 id="using-the-omnomicsq-command-line-application-docker-image">Using
+the omnomicsQ command line application Docker image</h1>
+<p>The omnomicsQ Docker image is an alternative way to obtain the
+omnomicsQ command-line application. Benefits of using the omnomicsQ
+Docker image include that you don’t need to install or configure the
+application on your machine, as long as you have a working Docker
+installation (including Docker Desktop if you are using Windows or Mac).
+Since there is nothing to install, upgrading to a newer version is just
+a matter of referencing a newer version number on your command line.</p>
+<h2 id="obtaining-the-omnomicsq-docker-image">Obtaining the omnomicsQ
+Docker image</h2>
+<p>The Docker image is available through the Docker Hub at <a
+href="https://hub.docker.com/r/euformatics/omnomicsq_cli/tags">euformatics/omnomicsq_cli</a>.
+Check the linked page for the latest available version. The latest
+version at the time of writing is 1.1.6. You can pull it to your machine
+with the following command:</p>
+<pre><code>docker pull euformatics/omnomicsq_cli:1.1.6</code></pre>
+<h2
+id="running-the-omnomicsq-docker-image-from-the-command-line">Running
+the omnomicsQ Docker image from the command line</h2>
+<p>The command line application connects to the omnomicsQ server at <a
+href="https://q.omnomics.com">q.omnomics.com</a> over HTTPS. A username
+and a password are used to authenticate. For testing and occasional
+usage, you can use the same username and password that you use to log in
+to the web application. For configuring the command line application as
+a permanent part of your pipeline, please contact Euformatics support at
+<a href="mailto:support@euformatics.com">support@euformatics.com</a> to
+obtain another password that is separate from the password you use to
+interactively use the application.</p>
+<p>Username and password are specified via the <code>oq_org</code> and
+<code>oq_license</code> environment variables. You need to specify these
+environment variables with the <code>-e</code> command line switch when
+you run the command line application.</p>
+<p>In the Bash shell on Linux/Mac, you can set the environment variables
+with the <code>export</code> command. Replace
+<code>&lt;YOUR_USERNAME&gt;</code> and
+<code>&lt;YOUR_PASSWORD&gt;</code> with your actual username and
+password:</p>
+<pre><code>export oq_org=&lt;YOUR_USERNAME&gt;
+export oq_license=&lt;YOUR_PASSWORD&gt;</code></pre>
+<p>If you are on Windows (using Docker Desktop), in Command Prompt or
+PowerShell you will need to use the <code>set</code> command
+instead:</p>
+<pre><code>set oq_org=&lt;YOUR_USERNAME&gt;
+set oq_license=&lt;YOUR_PASSWORD&gt;</code></pre>
+<p>To ensure that your username and password are correct, you can now
+try using <code>docker run</code> to execute the
+<code>omnomicsq_cli list_devices</code> command for listing your
+configured devices from the server:</p>
+<pre><code>docker run -i -e oq_org -e oq_license euformatics/omnomicsq_cli:1.1.6 /opt/omnomicsq/omnomicsq_cli list_devices</code></pre>
+<p>If everything was successful, you will see a list of your
+devices.</p>
+<h2 id="getting-started">Getting started</h2>
+<p>You can issue the following command to see the command line help:</p>
+<pre><code>docker run -i -e oq_org -e oq_license euformatics/omnomicsq_cli:1.1.6 /opt/omnomicsq/omnomicsq_cli --help</code></pre>
+<p>The quick start guide is included as a README file with the docker
+image, and it contains example commands for common tasks like analyzing
+FASTQ, BAM and VCF files. You can view it with the following
+command:</p>
+<pre><code>docker run -i -e oq_org -e oq_license euformatics/omnomicsq_cli:1.1.6 cat /opt/omnomicsq/README.md</code></pre>
